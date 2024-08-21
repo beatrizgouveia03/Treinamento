@@ -1,2 +1,2 @@
 # Treinamento
-Repositório dedicado aos trabalhos da matéria de Treinamento para Competições de Programação e aos estudos posteriores sobre Programação Competititva
+This repository is dedicated to the Programming Competition Training Class and any futher studies on this subject
