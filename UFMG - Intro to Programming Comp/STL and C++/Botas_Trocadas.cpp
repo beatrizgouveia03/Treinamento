@@ -34,4 +34,6 @@ int main(){ _
     cout << res << endl;
 
     return 0;
+
+    //OBI 2017 Fase 1 - A
 }
