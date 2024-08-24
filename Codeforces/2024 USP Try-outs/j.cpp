@@ -16,15 +16,22 @@ const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 
 int main(){ _ 
     ll n; cin >> n;
-    bool flagOdd = false, flagZero = true;
+    vector<ll> prices(n+1);
     
+    for(auto i{0}; i<n; ++i) cin >> prices[i];
+
+    sort(prices.begin(),prices.begin()+n, greater<>());
+
+    ll maxAmount = 0, maxPrice = 0;
+
     for(auto i{0}; i<n; ++i){
-        ll h; cin >> h;
-        if(h != 0) flagZero = false;
-        if(h > 2 && h%2 != 0) flagOdd = true;
+        if(maxAmount < (i+1)*prices[i]){
+            maxAmount = (i+1)*prices[i];
+            maxPrice = prices[i];
+        }
     }
 
-    (flagZero)? cout << 0 << endl : ((flagOdd)? cout << 2 << endl :cout << 1 << endl);
+    cout << maxPrice << " " << maxAmount << endl;
 
     return 0;
 }
