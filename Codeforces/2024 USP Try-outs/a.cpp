@@ -8,6 +8,7 @@ using namespace std;
 #define s second
 #define ii pair<int,int>
 #define vi vector<int>
+#define vb vector<bool>
 
 typedef long long ll;
 
@@ -16,39 +17,54 @@ const ll LINF = 0x3f3f3f3f3f3f3f3fll;
 
 int main(){ _ 
     ll n; cin >> n;
-    vector<ll> idx(n+1), ord(n+1), sad;
-    map<ll, pair<ll, ll>> order;
-    map<ll,ll> ordIdx;
 
-    for(auto i{0}; i<n; ++i){
-        ll t, m, c; cin >> t >> m >> c;
-        idx[i] = t; ord[i] = t;
-        ordIdx[t] = i+1;
-        order[t] = {m, c};
+    vb sadP(n+1, false);
+    set<ll> order;
+    vector<ll> entry(n+1);
+    queue<pair<ll,ll>> playlist;
+    map<ll, pair<ll, ll>> inter;    
+
+    for (auto i{0}; i < n; i++)
+    {
+        ll time, music, skip;
+        cin >> time >> music >> skip;
+
+        entry[i] = time;
+        order.insert(time);
+        inter[time] = {music, skip}; 
     }
 
-    sort(ord.begin(), ord.begin()+n);
+    ll time = *order.begin(), sad = 0;
+    playlist.push({time,inter[time].f});
+    order.erase(order.begin());
 
-    ll idxM = ord[0];
+    ll aux = inter[time].f;
 
-    for(auto i{1}; i<n; ++i){
-        ll t = ord[i];
-
-        if(order[t].s == 1){
-            if(order[idxM].f >= t) {
-                sad.push_back(ordIdx[idxM]);
-            }
-            idxM = t;
+    for (auto i{1}; i < n; i++)
+    {
+        time = *order.begin();
+        order.erase(order.begin());
+        while(time > playlist.front().s){
+            playlist.pop();
+            if(playlist.empty()) break;
         }
-        else if(order[idxM].f < t) idxM = t;
+        if(inter[time].s == 1 && !playlist.empty()){
+            sad++;
+            sadP[playlist.front().f] = true;
+            playlist.pop();
+        }
+
+        aux += inter[time].f;
+        playlist.push({time, aux});
     }
 
-    cout << sad.size() << endl;
+    cout << sad << endl;
 
-    for(auto i{0u}; i<sad.size(); ++i) cout << sad[i] << " ";
+    for(auto i{0}; i<n; ++i) (sadP[entry[i]])?cout << i+1 << " ": cout;
+
     cout << endl;
 
     return 0;
 
-    //UNFINISHED
+    //WRONG
 }
